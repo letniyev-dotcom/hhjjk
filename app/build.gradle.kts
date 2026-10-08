@@ -20,7 +20,33 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    // debug-сборка подписывается автоматически debug-ключом, APK ставится без настройки подписи
+
+    // Подпись релиза: ключ и пароли приходят из переменных окружения (GitHub Secrets).
+    // Если переменных нет (например, локально), релиз соберётся неподписанным.
+    val ksFile = System.getenv("KEYSTORE_FILE")?.let { file(it) }
+    val hasKeystore = ksFile != null && ksFile.exists()
+    signingConfigs {
+        if (hasKeystore) {
+            create("release") {
+                storeFile = ksFile
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true      // R8: сжатие, оптимизация, обфускация
+            isShrinkResources = true    // удаление неиспользуемых ресурсов
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+            if (hasKeystore) signingConfig = signingConfigs.getByName("release")
+        }
+    }
 }
 
 kotlin { jvmToolchain(17) }

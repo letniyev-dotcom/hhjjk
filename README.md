@@ -3,9 +3,10 @@
 Тестовый APK: нижний навбар с прогрессивным блюром и лёгким цветом навбара (как в прототипе v19), на Haze 1.7.2 + Jetpack Compose.
 
 ## Как получить APK
+0. Один раз добавь в репозитории Settings → Secrets and variables → Actions четыре секрета: `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`.
 1. Создай репозиторий на GitHub, залей содержимое этого архива в корень (ветка `main`).
-2. Открой вкладку **Actions**, workflow **Build APK** запустится сам (или нажми *Run workflow*).
-3. Когда он позеленеет, открой запуск и скачай артефакт **blurnav-debug-apk** (внутри `app-debug.apk`).
+2. Открой вкладку **Actions**, workflow **Build release APK** запустится сам (или нажми *Run workflow*).
+3. Когда он позеленеет, открой запуск и скачай артефакт **blurnav-release-apk** (внутри подписанный `app-release.apk`, собран с R8).
 4. Установи на телефон (разреши установку из неизвестных источников).
 
 ## Что в приложении
