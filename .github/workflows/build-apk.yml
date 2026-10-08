@@ -21,6 +21,10 @@ jobs:
           distribution: temurin
           java-version: 17
       - uses: android-actions/setup-android@v3
+        with:
+          # По умолчанию action ставит пакет 'tools', которого в SDK больше нет (sdkmanager падает).
+          # Пустой список: на ubuntu-latest SDK уже есть, нужное докачает Gradle.
+          packages: ''
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.14.3
